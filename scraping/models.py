@@ -3,8 +3,10 @@ from scraping.utils import from_cyrillic_to_eng
 
 
 class City(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Город', unique=True)  # verbose_name - удобночитаемое имя для поля, используемого в поле метки
-    slug = models.SlugField(max_length=50, blank=True, unique=True)  # unique - чтобы название города было уникальным
+    # verbose_name - удобночитаемое имя для поля, используемого в поле метки
+    name = models.CharField(max_length=50, verbose_name='Город', unique=True)
+    # unique - чтобы название города было уникальным
+    slug = models.SlugField(max_length=50, blank=True, unique=True)
 
     class Meta:
         verbose_name = 'Город'
@@ -13,14 +15,17 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self,  *args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = from_cyrillic_to_eng(str(self.name))
         super().save(*args, **kwargs)
 
 
 class Language(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Язык программирования', unique=True)
+    name = models.CharField(
+        max_length=50,
+        verbose_name='Язык программирования',
+        unique=True)
     slug = models.SlugField(max_length=50, blank=True, unique=True)
 
     class Meta:
@@ -30,7 +35,7 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self,  *args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = from_cyrillic_to_eng(str(self.name))
         super().save(*args, **kwargs)
@@ -41,9 +46,17 @@ class Vacancy(models.Model):
     title = models.CharField(max_length=250, verbose_name='Заголовок вакансии')
     company = models.CharField(max_length=250, verbose_name='Компания')
     description = models.TextField(verbose_name='Описание вакансии')
-    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='Город')
-    language = models.ForeignKey('Language', on_delete=models.CASCADE, verbose_name='Язык программирования')
-    timestamp = models.DateField(auto_now_add=True)  # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты после попадение записи в БД
+    city = models.ForeignKey(
+        'City',
+        on_delete=models.CASCADE,
+        verbose_name='Город')
+    language = models.ForeignKey(
+        'Language',
+        on_delete=models.CASCADE,
+        verbose_name='Язык программирования')
+    # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты
+    # после попадение записи в БД
+    timestamp = models.DateField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Вакансия'
@@ -51,4 +64,3 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
-

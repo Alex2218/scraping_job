@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import UserManager
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -43,8 +42,16 @@ class MyUser(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    city = models.ForeignKey('scraping.City', on_delete=models.SET_NULL, null=True, blank=True)
-    language = models.ForeignKey('scraping.Language', on_delete=models.SET_NULL, null=True, blank=True)
+    city = models.ForeignKey(
+        'scraping.City',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
+    language = models.ForeignKey(
+        'scraping.Language',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
     mailing = models.BooleanField(default=True)  # рассылка на имейл
 
     objects = MyUserManager()
@@ -61,7 +68,7 @@ class MyUser(AbstractBaseUser):
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
+        "Does the user have permissions to view the app `accounts_app`?"
         # Simplest possible answer: Yes, always
         return True
 

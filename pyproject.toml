@@ -10,6 +10,10 @@ Django = "^3.2.9"
 render = "^1.0.0"
 flake8 = "^4.0.1"
 slugify = "^0.0.1"
+requests = "^2.26.0"
+pip = "^21.3.1"
+beautifulsoup4 = "^4.10.0"
+autopep8 = "^1.6.0"
 
 [tool.poetry.dev-dependencies]
 
