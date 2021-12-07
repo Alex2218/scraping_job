@@ -1,7 +1,9 @@
+import asyncio
 import os
 import sys
-from django.db import DatabaseError
 
+from django.contrib.auth import get_user_model
+from django.db import DatabaseError
 
 proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
@@ -9,36 +11,71 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'job_ua.settings'
 
 
 import django
+
 django.setup()
 
 
+from scraping.models import City, Error, Language, Url, Vacancy
 from scraping.parser import *
-from scraping.models import Vacancy, City, Language
 
+User = get_user_model()
 
 parsers = (
-    (work, 'https://www.work.ua/ru/jobs-kyiv-python/'),
-    (dou, 'https://jobs.dou.ua/vacancies/?city=%D0%9A%D0%B8%D1%97%D0%B2&category=Python'),
-    (djinni, 'https://djinni.co/jobs/keyword-python/kyiv/'),
-    (rabota, 'https://rabota.ua/zapros/developer-python/%D0%BA%D0%B8%D0%B5%D0%B2')
+    (work, 'work'),
+    (dou, 'dou'),
+    (djinni, 'djinni'),
+    (rabota, 'rabota')
 )
 
-city = City.objects.filter(slug='kiev').first()
-language = Language.objects.filter(slug='python').first()
-
 jobs, errors = [], []
-for func, url in parsers:
-    j, e = func(url)
-    jobs += j
-    errors += e
+
+def get_settings():
+    qs = User.objects.filter(mailing=True).values()
+    settings_lst = set((q['city_id'], q['language_id'])for q in qs)
+    return settings_lst
+
+
+def get_urls(_settings):
+    qs = Url.objects.all().values()
+    url_dct = {(q['city_id'], q['language_id']): q['url_data']for q in qs}
+    urls = []
+    for pair in _settings:
+        tmp = {}
+        tmp['city'] = pair[0]
+        tmp['language'] = pair[1]
+        tmp['url_data'] = url_dct[pair]
+        urls.append(tmp)
+    return urls
+
+
+async def main(value):  # asynchronous function to speed up running time
+    func,url,city,language = value
+    job, err = await loop.run_in_executor(None, func, url, city, language)
+    errors.extend(err)
+    jobs.extend(job)
+
+
+settings = get_settings()
+url_list = get_urls(settings)
+
+
+loop = asyncio.get_event_loop()
+tmp_tasks = [
+    (func, data['url_data'][key], data['city'],data['language'])
+    for data in url_list
+    for func, key in parsers
+]
+tasks = asyncio.wait([loop.create_task(main(f))for f in tmp_tasks])
+
+
+loop.run_until_complete(tasks)
+loop.close()
 
 for job in jobs:
-    v = Vacancy(**job, city=city, language=language)
+    v = Vacancy(**job,)
     try:
         v.save()
     except DatabaseError:
         pass
-
-# h = codecs.open('work.text', 'w', 'utf-8')
-# h.write(str(jobs))
-# h.close()
+if errors:
+    er = Error(data=errors)
