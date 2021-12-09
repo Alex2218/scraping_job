@@ -20,13 +20,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            
+
             {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'accounts:logout' %} ">Выйти</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:update' %} ">Профиль</a>
+                <a class="nav-link" href="{% url 'accounts:update' %} ">Настройки профиля</a>
               </li>
             {% else %}
               <li class="nav-item">
@@ -40,7 +40,36 @@
         </div>
       </div>
     </nav>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-8 mx-auto my-3">
+        {% if messages %}
+
+              {% for message in messages %}
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                       {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+              {% else %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                       {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+               {% endif %}
+
+
+              {% endfor %}
+
+          {% endif %}
+      </div>
     </div>
+  </div>
   <div class="container">
       {% block content %}{% endblock %}
   </div>

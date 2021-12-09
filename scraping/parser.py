@@ -35,8 +35,8 @@ def work(url, city=None, language=None):
                     if logo:
                         company = logo['alt']
                     jobs.append({'title': title.text, 'url': domain + href,
-                                'description': content, 'company': company,
-                                'city_id': city, 'language_id': language})
+                            'description': content, 'company': company,
+                            'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -65,8 +65,8 @@ def dou(url, city=None, language=None):
                         if a:
                             company = a.text
                         jobs.append({'title': title.text, 'url': href,
-                                    'description': content, 'company': company,
-                                    'city_id': city, 'language_id': language})
+                                'description': content, 'company': company,
+                                'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -101,8 +101,8 @@ def djinni(url, city=None, language=None):
                         if comp:
                             company = comp.text
                         jobs.append({'title': title.text, 'url': domain + href,
-                                    'description': content, 'company': company,
-                                    'city_id': city, 'language_id': language})
+                                'description': content, 'company': company,
+                                'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:

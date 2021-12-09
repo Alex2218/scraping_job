@@ -3,7 +3,7 @@ from scraping.utils import from_cyrillic_to_eng
 
 
 def default_urls():
-    return{'work': '','dou': '', 'djinni': '', 'rabota': ''}
+    return{'work': '', 'dou': '', 'djinni': '', 'rabota': ''}
 
 
 class City(models.Model):
@@ -49,12 +49,11 @@ class Vacancy(models.Model):
     title = models.CharField(max_length=250, verbose_name='Заголовок вакансии')
     company = models.CharField(max_length=250, verbose_name='Компания')
     description = models.TextField(verbose_name='Описание вакансии')
-    city = models.ForeignKey('City',on_delete=models.CASCADE,
+    city = models.ForeignKey('City', on_delete=models.CASCADE,
         verbose_name='Город')
-    language = models.ForeignKey('Language',on_delete=models.CASCADE,
+    language = models.ForeignKey('Language', on_delete=models.CASCADE,
         verbose_name='Язык программирования')
-    timestamp = models.DateField(auto_now_add=True)  # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты
-                                                     # после попадение записи в БД
+    timestamp = models.DateField(auto_now_add=True)  # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты, после попадение записи в БД
 
     class Meta:
         verbose_name = 'Вакансия'
@@ -71,9 +70,9 @@ class Error(models.Model):
 
 
 class Url(models.Model):
-    city = models.ForeignKey('City',on_delete=models.CASCADE,
+    city = models.ForeignKey('City', on_delete=models.CASCADE,
         verbose_name='Город')
-    language = models.ForeignKey('Language',on_delete=models.CASCADE,
+    language = models.ForeignKey('Language', on_delete=models.CASCADE,
         verbose_name='Язык программирования')
     url_data = models.JSONField(default=default_urls)
 

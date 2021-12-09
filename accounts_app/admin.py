@@ -6,7 +6,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
 from accounts_app.models import MyUser
-from scraping.models import City, Language
 
 
 class UserCreationForm(forms.ModelForm):

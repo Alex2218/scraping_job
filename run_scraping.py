@@ -1,9 +1,9 @@
 import asyncio
 import os
 import sys
-
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
+
 
 proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
@@ -11,12 +11,12 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'job_ua.settings'
 
 
 import django
-
 django.setup()
 
 
-from scraping.models import City, Error, Language, Url, Vacancy
 from scraping.parser import *
+from scraping.models import Error, Url, Vacancy
+
 
 User = get_user_model()
 
@@ -28,6 +28,7 @@ parsers = (
 )
 
 jobs, errors = [], []
+
 
 def get_settings():
     qs = User.objects.filter(mailing=True).values()
@@ -48,8 +49,9 @@ def get_urls(_settings):
     return urls
 
 
-async def main(value):  # asynchronous function to speed up running time(three times faster)
-    func,url,city,language = value
+async def main(value):
+    # asynchronous function to speed up running time(three times faster)
+    func, url, city, language = value
     job, err = await loop.run_in_executor(None, func, url, city, language)
     errors.extend(err)
     jobs.extend(job)
@@ -61,18 +63,17 @@ url_list = get_urls(settings)
 
 loop = asyncio.get_event_loop()
 tmp_tasks = [
-    (func, data['url_data'][key], data['city'],data['language'])
+    (func, data['url_data'][key], data['city'], data['language'])
     for data in url_list
     for func, key in parsers
 ]
-tasks = asyncio.wait([loop.create_task(main(f))for f in tmp_tasks])
-
-
-loop.run_until_complete(tasks)
-loop.close()
+if tmp_tasks:
+    tasks = asyncio.wait([loop.create_task(main(f))for f in tmp_tasks])
+    loop.run_until_complete(tasks)
+    loop.close()
 
 for job in jobs:
-    v = Vacancy(**job,)
+    v = Vacancy(**job)
     try:
         v.save()
     except DatabaseError:
