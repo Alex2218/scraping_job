@@ -48,7 +48,7 @@ def get_urls(_settings):
     return urls
 
 
-async def main(value):  # asynchronous function to speed up running time
+async def main(value):  # asynchronous function to speed up running time(three times faster)
     func,url,city,language = value
     job, err = await loop.run_in_executor(None, func, url, city, language)
     errors.extend(err)

@@ -9,7 +9,6 @@ def default_urls():
 class City(models.Model):
     # verbose_name - удобночитаемое имя для поля, используемого в поле метки
     name = models.CharField(max_length=50, verbose_name='Город', unique=True)
-    # unique - чтобы название города было уникальным
     slug = models.SlugField(max_length=50, blank=True, unique=True)
 
     class Meta:
@@ -54,9 +53,8 @@ class Vacancy(models.Model):
         verbose_name='Город')
     language = models.ForeignKey('Language',on_delete=models.CASCADE,
         verbose_name='Язык программирования')
-    # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты
-    # после попадение записи в БД
-    timestamp = models.DateField(auto_now_add=True)
+    timestamp = models.DateField(auto_now_add=True)  # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты
+                                                     # после попадение записи в БД
 
     class Meta:
         verbose_name = 'Вакансия'
