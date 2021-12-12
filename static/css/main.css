@@ -1,0 +1,8 @@
+@font-face {
+    font-family: BakbakOne;
+    src: url(../fonts/BakbakOne-Regular.ttf);
+}
+#brand {
+    font-family: BakbakOne;
+    color: #B4B;
+}
