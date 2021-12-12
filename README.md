@@ -1,1 +1,3 @@
-<a href="https://codeclimate.com/github/Alex2218/scraping_site/maintainability"><img src="https://api.codeclimate.com/v1/badges/aebc91e2485b717755b3/maintainability" /></a>
+#Service for collecting data
+
+Building a full-fledged service site that collects data on vacancies from job search sites and sends them to subscribers. Service subscribers are registered by choosing a city and programming language. Once a day, all subscribers who want to receive emails with vacancies are selected and based on their preferences, a list of URLs is formed, by which parsers are launched to collect vacancies by these parameters. After the parsers are finished, the sending of letters to those who want to receive the newsletter starts.
