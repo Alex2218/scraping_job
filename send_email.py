@@ -12,10 +12,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'job_ua.settings'
 django.setup()
 
 from scraping.models import Vacancy, Error, Url
-from job_ua.settings import (
-    EMAIL_HOST_USER,
-    EMAIL_HOST, EMAIL_HOST_PASSWORD
-)
+from job_ua.settings import EMAIL_HOST_USER
 
 ADMIN_USER = EMAIL_HOST_USER
 
@@ -80,7 +77,7 @@ if qs.exists():
             _html += f'<p">Город: {i["city"]}, Специальность:{i["language"]},  Email:{i["email"]}</p><br>'
         subject += f" Пожелания пользователей {today}"
         text_content += "Пожелания пользователей"
- 
+
 
 qs = Url.objects.all().values('city', 'language')
 urls_dct = {(i['city'], i['language']): True for i in qs}
