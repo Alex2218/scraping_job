@@ -4,4 +4,4 @@ Building a full-fledged service site that collects data on vacancies from job se
 
 ## Link to the deployed project
 
-[Сайт] (https://scraping-j.herokuapp.com/)
+[Site](https://scraping-j.herokuapp.com/)
