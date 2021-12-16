@@ -1,0 +1,13 @@
+python==3.8
+asgiref==3.4.1
+Django== 3.2.9
+render== 1.0.0
+flake8== 4.0.1
+slugify==0.0.1
+requests==2.26.0
+beautifulsoup4==4.10.0
+django-jsonfield==1.4.1
+gunicorn==20.1.0
+whitenoise== 5.3.0
+dj-database-url== 0.5.0
+psycopg2-binary== 2.9.2
