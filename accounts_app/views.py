@@ -1,7 +1,8 @@
 import datetime as dt
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from accounts_app.forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, ContactForm
+from accounts_app.forms import UserLoginForm, \
+    UserRegistrationForm, UserUpdateForm, ContactForm
 from scraping.models import Error
 from django.contrib import messages
 
@@ -55,7 +56,8 @@ def update_view(request):
 
         form = UserUpdateForm(initial={'city': user.city,
                               'language': user.language, 'mailing': user.mailing})
-        return render(request, 'accounts_app/update.html', {'form': form, 'contact_form': contact_form})
+        return render(request, 'accounts_app/update.html',
+                      {'form': form, 'contact_form': contact_form})
     else:
         return redirect('accounts:login')
 

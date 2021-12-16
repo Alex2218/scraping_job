@@ -8,8 +8,10 @@ User = get_user_model()
 
 
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+                              attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+                                attrs={'class': 'form-control'}))
 
     def clean(self, *args, **kwargs):
         email = self.cleaned_data.get('email').strip()
@@ -29,11 +31,14 @@ class UserLoginForm(forms.Form):
 
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(label='Введите email',
-        widget=forms.EmailInput(attrs={'class': 'form-control'}))
+                             widget=forms.EmailInput(
+                              attrs={'class': 'form-control'}))
     password = forms.CharField(label='Введите пароль',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+                               widget=forms.PasswordInput(
+                                attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Повторите пароль',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+                                widget=forms.PasswordInput(
+                                 attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -58,7 +63,7 @@ class UserUpdateForm(forms.Form):
         label='Специальность'
     )
     mailing = forms.BooleanField(required=False, widget=forms.CheckboxInput,
-                                    label='Получать рассылку?')
+                                 label='Получать рассылку?')
 
     class Meta:
         model = User

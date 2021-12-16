@@ -25,7 +25,8 @@ def work(url, city=None, language=None):
             soup = BS(resp.content, 'html.parser')
             main_div = soup.find('div', id='pjax-job-list')
             if main_div:
-                div_list = main_div.find_all('div', attrs={'class': 'job-link'})
+                div_list = main_div.find_all('div',
+                                             attrs={'class': 'job-link'})
                 for div in div_list:
                     title = div.find('h2')
                     href = title.a['href']
@@ -35,8 +36,8 @@ def work(url, city=None, language=None):
                     if logo:
                         company = logo['alt']
                     jobs.append({'title': title.text, 'url': domain + href,
-                            'description': content, 'company': company,
-                            'city_id': city, 'language_id': language})
+                                'description': content, 'company': company,
+                                 'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -65,8 +66,8 @@ def dou(url, city=None, language=None):
                         if a:
                             company = a.text
                         jobs.append({'title': title.text, 'url': href,
-                                'description': content, 'company': company,
-                                'city_id': city, 'language_id': language})
+                                    'description': content, 'company': company,
+                                     'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -88,7 +89,8 @@ def djinni(url, city=None, language=None):
                     'li', attrs={'class': 'list-jobs__item'})
                 for li in li_list:
                     if '__hot' not in li['class']:
-                        title = li.find('div', attrs={'class': 'list-jobs__title'})
+                        title = li.find('div',
+                                        attrs={'class': 'list-jobs__title'})
                         href = title.a['href']
                         cont = li.find(
                             'div', attrs={
@@ -101,8 +103,8 @@ def djinni(url, city=None, language=None):
                         if comp:
                             company = comp.text
                         jobs.append({'title': title.text, 'url': domain + href,
-                                'description': content, 'company': company,
-                                'city_id': city, 'language_id': language})
+                                    'description': content, 'company': company,
+                                     'city_id': city, 'language_id': language})
             else:
                 errors.append({'url': url, 'title': "Div does not exists"})
         else:
@@ -122,7 +124,8 @@ def rabota(url, city=None, language=None):
                 'div', attrs={
                     'class': 'f-vacancylist-newnotfound'})
             if not new_jobs:
-                table = soup.find('table', id='ctl00_content_vacancyList_gridList')
+                table = soup.find('table',
+                                  id='ctl00_content_vacancyList_gridList')
                 if table:
                     tr_list = table.find_all('tr', attrs={'id': True})
                     for tr in tr_list:
@@ -140,9 +143,10 @@ def rabota(url, city=None, language=None):
                                 company = p.text
                             jobs.append({'title': title.text, 'url': domain + href,
                                         'description': content, 'company': company,
-                                        'city_id': city, 'language_id': language})
+                                         'city_id': city, 'language_id': language})
                 else:
-                    errors.append({'url': url, 'title': "Tabel does not exists"})
+                    errors.append({'url': url,
+                                  'title': "Tabel does not exists"})
             else:
                 errors.append({'url': url, 'title': "Page is empty"})
         else:

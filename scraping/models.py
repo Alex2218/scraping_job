@@ -50,9 +50,9 @@ class Vacancy(models.Model):
     company = models.CharField(max_length=250, verbose_name='Компания')
     description = models.TextField(verbose_name='Описание вакансии')
     city = models.ForeignKey('City', on_delete=models.CASCADE,
-        verbose_name='Город')
+                             verbose_name='Город')
     language = models.ForeignKey('Language', on_delete=models.CASCADE,
-        verbose_name='Язык программирования')
+                                 verbose_name='Язык программирования')
     timestamp = models.DateField(auto_now_add=True)  # день когда внесли ваканию, auto_now_add - автоматичкое проставление даты, после попадение записи в БД
 
     class Meta:
@@ -74,9 +74,9 @@ class Error(models.Model):
 
 class Url(models.Model):
     city = models.ForeignKey('City', on_delete=models.CASCADE,
-        verbose_name='Город')
+                             verbose_name='Город')
     language = models.ForeignKey('Language', on_delete=models.CASCADE,
-        verbose_name='Язык программирования')
+                                 verbose_name='Язык программирования')
     url_data = models.JSONField(default=default_urls)
 
 
