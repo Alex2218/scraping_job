@@ -156,3 +156,4 @@ cython_debug/
 
 # Support for Project snippet scope
 !.vscode/*.code-snippet
+

@@ -1,0 +1,4 @@
+[flake8]
+max-complexity=10
+ignore = E501
+exclude = __pycache__,.migrations, job_ua, run_scraping.py, send_email.py,mydata.json
